@@ -27,12 +27,17 @@
 
       <button :class="$style.btn">Log In</button>
 
-      <div>Don't have an account? <span>Sign Up</span></div>
+      <div :class="$style.switchLink">
+        Don't have an account?
+        <span @click="$emit('changePage')">Sign Up</span>
+      </div>
     </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+const emit = defineEmits(["changePage"]);
+</script>
 
 <style module>
 .title {
@@ -40,6 +45,18 @@
   color: var(--color-2);
   margin-bottom: 52px;
   text-align: center;
+}
+
+.switchLink {
+  font-size: 24px;
+  color: var(--color-2);
+  margin-top: 27px;
+  text-align: center;
+}
+
+.switchLink > span {
+  color: var(--btn-color-1);
+  cursor: pointer;
 }
 
 .formWrapper {
@@ -156,6 +173,10 @@
 
   .formWrapper {
     gap: 12px;
+  }
+
+  .switchLink {
+    font-size: 14px;
   }
 }
 </style>

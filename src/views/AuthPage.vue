@@ -13,12 +13,22 @@
       alt="backgroundImage"
     />
 
-    <Login />
+    <Login v-if="showPage === 'login'" @changePage="changePage" />
+    <Register v-if="showPage === 'register'" @changePage="changePage" />
   </div>
 </template>
 
 <script setup>
+import { ref } from "vue";
 import Login from "@/components/Login.vue";
+import Register from "@/components/Register.vue";
+
+const showPage = ref("login");
+
+const changePage = () => {
+  console.log("activating");
+  showPage.value = showPage.value === "login" ? "register" : "login";
+};
 </script>
 
 <style module>
