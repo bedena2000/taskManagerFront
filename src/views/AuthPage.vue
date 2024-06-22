@@ -26,7 +26,6 @@ import Register from "@/components/Register.vue";
 const showPage = ref("login");
 
 const changePage = () => {
-  console.log("activating");
   showPage.value = showPage.value === "login" ? "register" : "login";
 };
 </script>

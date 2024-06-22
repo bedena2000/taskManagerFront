@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @keydown.enter="handleLogin">
     <h2 :class="$style.title">Log In</h2>
 
     <div :class="$style.mainWrapper">
@@ -10,7 +10,7 @@
             <div>
               <img src="/email.png" alt="emailIcon" />
             </div>
-            <input required type="text" placeholder="example@gmail.com" />
+            <input v-model="username" required type="text" placeholder="example@gmail.com" />
           </div>
         </div>
 
@@ -20,12 +20,16 @@
             <div>
               <img src="/Password.png" alt="passwordIcon" />
             </div>
-            <input required type="password" placeholder="*********" />
+            <input v-model="password" required type="password" placeholder="*********" />
           </div>
         </div>
+
+        <p :class="$style.errorMessage">
+          {{ errorMessage }}
+        </p>
       </div>
 
-      <button :class="$style.btn">Log In</button>
+      <button @click="handleLogin" :class="$style.btn">Log In</button>
 
       <div :class="$style.switchLink">
         Don't have an account?
@@ -36,7 +40,40 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import services from '@/services/index.js';
 const emit = defineEmits(["changePage"]);
+
+const username = ref("");
+const password = ref("");
+const errorMessage = ref("");
+
+
+const handleLogin = async () => {
+  const credentials = {
+    username: username.value.trim(),
+    password: password.value.trim()
+  };
+
+  try {
+    const data = await services.loginUser(credentials);
+
+    if(data.token && !data.message) {
+      const date = new Date();
+      date.setTime(date.getTime() + (24 * 60 * 60 * 1000)); // 24 hours from now
+      const expires = date.toUTCString();
+      const token = data.token;
+      document.cookie = `token=${token}; expires=${expires}; path=/`;
+    }
+
+    errorMessage.value = "";
+  } catch (error) {
+    errorMessage.value = error.response.data.message;
+  }
+
+
+};
+
 </script>
 
 <style module>
@@ -127,6 +164,12 @@ const emit = defineEmits(["changePage"]);
   font-family: var(--font-itim);
   margin-top: 61px;
   cursor: pointer;
+}
+
+.errorMessage {
+  color: var(--color-2);
+  opacity: 0.5;
+  width: 100%;
 }
 
 @media (max-width: 768px) {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @keydown.enter="registerUser">
     <h2 :class="$style.title">Register</h2>
 
     <div :class="$style.mainWrapper">
@@ -10,7 +10,7 @@
             <div>
               <img src="/person.png" alt="emailIcon" />
             </div>
-            <input required type="text" placeholder="Username" />
+            <input v-model="name" required type="text" placeholder="Username" />
           </div>
         </div>
 
@@ -20,11 +20,14 @@
             <div>
               <img src="/email.png" alt="emailIcon" />
             </div>
-            <input required type="text" placeholder="example@gmail.com" />
+            <input
+              v-model="email"
+              required
+              type="text"
+              placeholder="example@gmail.com"
+            />
           </div>
         </div>
-
-     
 
         <div :class="$style.item">
           <label for="password">Password</label>
@@ -32,16 +35,25 @@
             <div>
               <img src="/Password.png" alt="passwordIcon" />
             </div>
-            <input required type="password" placeholder="*********" />
+            <input
+              v-model="password"
+              required
+              type="password"
+              placeholder="*********"
+            />
           </div>
         </div>
+
+        <p :class="$style.errorMessage">
+          {{ errorMessage }}
+        </p>
       </div>
 
-      <button :class="$style.btn">Log In</button>
+      <button @click="registerUser" :class="$style.btn">Register</button>
 
       <div :class="$style.switchLink">
-        Don't have an account?
-        <span @click="$emit('changePage')">Sign Up</span>
+        Already have an account?
+        <span @click="$emit('changePage')">Log In</span>
       </div>
     </div>
   </div>
@@ -49,6 +61,30 @@
 
 <script setup>
 const emit = defineEmits(["changePage"]);
+import { ref } from "vue";
+import services from "@/services";
+
+const name = ref("");
+const email = ref("");
+const password = ref("");
+const errorMessage = ref("");
+
+const registerUser = async () => {
+  const credentials = {
+    username: name.value.trim(),
+    email: email.value.trim(),
+    password: password.value.trim(),
+  };
+
+  try {
+    const data = await services.registerUser(credentials);
+    errorMessage.value = "";
+
+    emit('changePage');
+  } catch (error) {
+    errorMessage.value = error.response.data.message;
+  }
+};
 </script>
 
 <style module>
@@ -139,6 +175,12 @@ const emit = defineEmits(["changePage"]);
   font-family: var(--font-itim);
   margin-top: 61px;
   cursor: pointer;
+}
+
+.errorMessage {
+  color: var(--color-2);
+  opacity: 0.5;
+  width: 100%;
 }
 
 @media (max-width: 768px) {
