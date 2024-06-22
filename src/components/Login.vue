@@ -43,11 +43,12 @@
 import { ref } from 'vue';
 import services from '@/services/index.js';
 const emit = defineEmits(["changePage"]);
+import { useRouter } from 'vue-router';
 
 const username = ref("");
 const password = ref("");
 const errorMessage = ref("");
-
+const router = useRouter();
 
 const handleLogin = async () => {
   const credentials = {
@@ -64,6 +65,7 @@ const handleLogin = async () => {
       const expires = date.toUTCString();
       const token = data.token;
       document.cookie = `token=${token}; expires=${expires}; path=/`;
+      await router.push('/');
     }
 
     errorMessage.value = "";
