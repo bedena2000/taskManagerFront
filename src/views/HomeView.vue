@@ -1,14 +1,22 @@
 <script setup>
-import AuthPage from './AuthPage.vue';
+import Options from '@/components/Options.vue';
 </script>
 
 <template>
   
-  <h1>hello world</h1>
+  <div :class=$style.wrapper>
+    <Options />
+  </div>
+
+
 
 </template>
 
 <style module>
 
+.wrapper {
+  display: flex;
+  min-height: 100vh;
+}
 
 </style>
