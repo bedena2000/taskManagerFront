@@ -1,12 +1,16 @@
 <template>
- <div :class=$style.wrapper>
+ <div @click="handleBoardItem" :class=$style.wrapper>
     {{ props.content }}
  </div>
 </template>
 
 <script setup>
-
+import {useCounterStore} from '@/stores/counter.js';
 const props = defineProps(['content', 'boardId']);
+const store = useCounterStore();
+const handleBoardItem = () => {
+    store.updateCurrentBoard(props.boardId);
+};
 
 </script>
 

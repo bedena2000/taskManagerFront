@@ -53,6 +53,8 @@ const createBoard = async () => {
     padding: 16px;
     border-radius: 26px;
     border: 6px solid #333738;
+    position: absolute;
+    z-index: 10;
 }
 
 .title {

@@ -41,5 +41,6 @@
 
 body {
   font-family: var(--font-itim);
+  background: var(--color-3);
 }
 </style>

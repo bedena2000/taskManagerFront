@@ -35,7 +35,6 @@ const boards = ref([]);
 
 const handleBoards = async () => {
     const result = await services.getBoards();
-    console.log(result);
     boards.value = result;
 };
 
@@ -67,7 +66,32 @@ const changeIsModal = () => {
     display: flex;
     flex-direction: column;
     gap: 24px;
+    overflow-y: scroll;
+    height: 50vh;
 }
+
+::-webkit-scrollbar {
+    width: 10px;
+    background-color: var(--color-4);
+    margin-top: 24px;
+    margin-bottom: 24px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-5);
+    border-radius: 24px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
 
 .wrapper > h2 {
     text-align: center;

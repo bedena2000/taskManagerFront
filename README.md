@@ -1,6 +1,9 @@
 Task 1 (Completed ✔️):
   Create login and registration pages
 
-Tsak 2 (Pending)
+Task 2 (Completed ✔️)
   Make authentication logic
+
+
+
   
